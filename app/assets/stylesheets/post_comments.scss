@@ -4,6 +4,11 @@
 
 
 .commentator-avatar{
-  width: 50px;
-  height: auto;
+  width: auto;
+  max-height: 50px;
+  border-radius: 3px;
+}
+
+.remove-comment-link{
+  margin-left: 20px;
 }

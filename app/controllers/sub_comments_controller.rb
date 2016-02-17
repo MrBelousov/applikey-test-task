@@ -1,8 +1,6 @@
 class SubCommentsController < ApplicationController
   before_action :user_signed_in?, only: [:create, :destroy]
   before_action :correct_user, only: :destroy
-  #before_action :get_user, only: [:create, :destroy]
-  #before_action :get_posts, only: [:create, :destroy]
 
   def show
   end
@@ -46,14 +44,5 @@ class SubCommentsController < ApplicationController
   def correct_user
     @sub_comment = current_user.sub_comments.find_by(id: params[:id])
     redirect_to root_url if @sub_comment.nil?
-  end
-
-  # Methods for successful remote:true rendering
-  def get_comments
-    @comments = post.post_comments
-  end
-
-  def get_user
-    @user = current_user
   end
 end

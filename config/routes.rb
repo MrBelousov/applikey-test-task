@@ -6,7 +6,8 @@ Rails.application.routes.draw do
   resources :post_comments
   resources :sub_comments
 
-  match '/signup',  to: 'users#new', via: 'get'
+  match '/help',    to: 'home#help',            via: 'get'
+  match '/signup',  to: 'users#new',            via: 'get'
   match '/signin',  to: 'sessions#new',         via: 'get'
   match '/signout', to: 'sessions#destroy',     via: 'delete'
 

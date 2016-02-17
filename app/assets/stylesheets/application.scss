@@ -17,6 +17,30 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+body{
+  background: #EFEFEF;
+}
+
 li{
   list-style-type: none;
+}
+
+textarea {
+  overflow: auto;
+  height: 70px;
+  width: 70%;
+}
+
+.header-menu li{
+  float: left;
+}
+
+.header-row{
+  padding: 20px;
+  height: 100px;
+}
+
+.footer{
+  margin-top: 50px;
+  height: 60px;
 }
