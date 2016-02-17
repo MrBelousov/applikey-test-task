@@ -1,11 +1,13 @@
 class UsersController < ApplicationController
-  before_action :set_user , only: [:show, :edit, :upload, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :upload, :update, :destroy]
+  before_action :correct_user, only: [:edit, :update]
 
   def index
   end
 
   def show
-    @user = User.find(params[:id])
+    @new_post = Post.new
+    @posts = @user.posts
   end
 
   def new
@@ -24,7 +26,6 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
   end
 
   def update
@@ -42,22 +43,30 @@ class UsersController < ApplicationController
 
   # File upload
   def upload
-    uploaded_io = params[:user][:avatar]
-    File.open(Rails.root.join('public', 'uploads', 'images', uploaded_io.original_filename), 'wb') do |file|
-      file.write(uploaded_io.read)
+    if params[:user][:avatar]
+      uploaded_io = params[:user][:avatar]
+      File.open(Rails.root.join('public', 'uploads', 'images', uploaded_io.original_filename), 'wb') do |file|
+        file.write(uploaded_io.read)
+      end
+      @user.avatar = "/uploads/images/" + uploaded_io.original_filename
     end
-    @user.avatar = "/uploads/images/" + uploaded_io.original_filename
   end
 
 
   private
 
+  def user_params
+    params.require(:user).permit(:name, :email, :password,
+                                 :password_confirmation)
+  end
+
+  # Before filters
   def set_user
     @user = User.find(params[:id])
   end
 
-  def user_params
-    params.require(:user).permit(:name, :email, :password,
-                                 :password_confirmation)
+  def correct_user
+    @user = User.find(params[:id])
+    redirect_to(root_url) unless current_user?(@user)
   end
 end

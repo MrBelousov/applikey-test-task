@@ -1,5 +1,18 @@
+<%= @user.name %>
 <% if @user.avatar.present? %>
   <%= image_tag @user.avatar, alt: 'user avatar' %>
 <% else %>
   <%= image_tag 'no_profile_img.gif', alt: 'there is no avatar' %>
+<% end %>
+
+<% if @user == current_user %>
+    <div id="post-form">
+      <%= render 'posts/new_post_form' %>
+    </div>
+<% end %>
+
+<% if @user.posts.any? %>
+    <div id="posts-list">
+      <%= render partial: 'posts/posts', locals: { user: @user } %>
+    </div>
 <% end %>
