@@ -1,0 +1,12 @@
+<ol class="comments">
+  <% comment.sub_comments.each do |comment| %>
+          <%= image_tag comment.user.avatar, alt: 'commentator avatar', class: 'commentator-avatar' %>
+          <%= comment.user.name %> commented: <br>
+      <li class="post">
+        <span class="content"><%= comment.comment_text %></span><br>
+        <% if current_user == comment.user %>
+            <%= link_to "Delete comment", comment, method: :delete, remote: true %>
+        <% end %>
+      </li>
+  <% end %>
+</ol>

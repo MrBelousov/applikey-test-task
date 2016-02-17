@@ -1,0 +1,25 @@
+<ol class="comments">
+  <% post.post_comments.each do |comment| %>
+      <% if comment.user.present? %>
+          <%= image_tag comment.user.avatar, alt: 'commentator avatar', class: 'commentator-avatar' %>
+          <%= comment.user.name %> commented: <br>
+      <% else %>
+          <%= image_tag 'no_profile_img.gif', alt: 'anonym avatar', class: 'commentator-avatar' %>
+          Anonym commented: <br>
+      <% end %>
+      <li class="post">
+        <span class="content"><%= comment.comment_text %></span><br>
+        <% if current_user == comment.user %>
+            <%= link_to "Delete comment", comment, method: :delete, remote: true %>
+        <% end %>
+      </li>
+      <div id="sub_comments-list">
+        <%= render partial: 'sub_comments/sub_comments', locals: { comment: comment } %>
+      </div>
+      <% if user_signed_in? %>
+          <div id="sub_comment-form">
+            <%= render partial: 'sub_comments/new_sub_comment_form', locals: { comment: comment } %>
+          </div>
+      <% end %>
+  <% end %>
+</ol>

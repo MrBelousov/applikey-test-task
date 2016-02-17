@@ -10,5 +10,13 @@
         <%= link_to "delete", post, method: :delete, remote: true %>
       <% end %>
     </li>
+    <div id="comments-list">
+      <%= render partial: 'post_comments/comments', locals: { post: post } %>
+    </div>
+    <% if user_signed_in? %>
+      <div id="comment-form">
+        <%= render partial: 'post_comments/new_comment_form', locals: { post: post } %>
+      </div>
+      <% end %>
   <% end %>
 </ol>

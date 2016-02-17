@@ -1,0 +1,8 @@
+<%= form_for(comment.sub_comments.new, remote: true) do |f| %>
+    <%= render 'layouts/shared/error_messages', object: f.object %>
+    <div class="field">
+      <%= f.text_area :comment_text, placeholder: "Ur comment...", required: true %>
+    </div>
+    <%= hidden_field_tag :comment_id, comment.id %>
+    <%= f.submit "Comment", class: "btn btn-large btn-primary" %>
+<% end %>

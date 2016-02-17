@@ -14,7 +14,10 @@ class User < ActiveRecord::Base
   validates :password, length: { minimum: 8 }
 
   # Relationships
-  has_many :posts
+  has_many :posts, dependent: :destroy
+  has_many :post_comments, dependent: :destroy
+  # Comments to comments
+  has_many :sub_comments, dependent: :destroy
 
   # Authenticate methods
   def User.new_remember_token
