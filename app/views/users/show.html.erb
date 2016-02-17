@@ -1,0 +1,5 @@
+<% if @user.avatar.present? %>
+  <%= image_tag @user.avatar, alt: 'user avatar' %>
+<% else %>
+  <%= image_tag 'no_profile_img.gif', alt: 'there is no avatar' %>
+<% end %>
