@@ -1,3 +1,3 @@
-$('#sub_comments-list').html("<%= j (render partial: 'sub_comments/sub_comments', locals: { comment: @comment }) %>");
-$('#sub_comment-form').html("<%= j (render partial: 'sub_comments/new_sub_comment_form', locals: { comment: @comment }) %>");
+$('#sub_comments-list-<%= @comment.id.to_s %>').html("<%= j (render partial: 'sub_comments/sub_comments', locals: { comment: @comment }) %>");
+$('#sub_comment-form-<%= @comment.id.to_s %>').html("<%= j (render partial: 'sub_comments/new_sub_comment_form', locals: { comment: @comment }) %>");
 

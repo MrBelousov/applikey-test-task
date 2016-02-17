@@ -13,11 +13,11 @@
             <%= link_to "Delete comment", comment, method: :delete, remote: true %>
         <% end %>
       </li>
-      <div id="sub_comments-list">
+      <div id="sub_comments-list-<%= comment.id.to_s %>">
         <%= render partial: 'sub_comments/sub_comments', locals: { comment: comment } %>
       </div>
       <% if user_signed_in? %>
-          <div id="sub_comment-form">
+          <div id="sub_comment-form-<%= comment.id.to_s %>">
             <%= render partial: 'sub_comments/new_sub_comment_form', locals: { comment: comment } %>
           </div>
       <% end %>
