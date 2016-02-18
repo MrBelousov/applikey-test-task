@@ -1,25 +1,29 @@
 <h3>Posts (<%= @user.posts.count %>)</h3>
 <ol class="posts">
   <% @posts.each do |post| %>
-      <div class="user-post">
-    <li class="post">
-      <%= image_tag @user.avatar, alt: 'user avatar', class: 'commentator-avatar' %>
-      <span class="content"><%= post.post_text %></span><br>
-      <span class="timestamp">
-        Posted <%= time_ago_in_words(post.created_at) %> ago.
-      </span>
-      <% if current_user == post.user %><br>
-        <%= link_to "Delete post", post, method: :delete, remote: true %>
+    <div class="user-post">
+      <li class="post">
+        <% if @user.avatar.present? %>
+          <%= image_tag @user.avatar, alt: 'user avatar', class: 'commentator-avatar' %>
+        <% else %>
+          <%= image_tag 'no_profile_img.gif', alt: 'no profile image', class: 'commentator-avatar' %>
+        <% end %>
+        <span class="content"><%= post.post_text %></span><br>
+        <span class="timestamp">
+          Posted <%= time_ago_in_words(post.created_at) %> ago.
+        </span>
+        <% if current_user == post.user %><br>
+          <%= link_to "Delete post", post, method: :delete, remote: true %>
+        <% end %>
+      </li>
+      <div id="comments-list-<%= post.id.to_s %>">
+        <%= render partial: 'post_comments/comments', locals: { post: post } %>
+      </div>
+      <% if user_signed_in? %>
+        <div id="comment-form-<%= post.id.to_s %>">
+          <%= render partial: 'post_comments/new_comment_form', locals: { post: post } %>
+        </div>
       <% end %>
-    </li>
-    <div id="comments-list-<%= post.id.to_s %>">
-      <%= render partial: 'post_comments/comments', locals: { post: post } %>
     </div>
-    <% if user_signed_in? %>
-      <div id="comment-form-<%= post.id.to_s %>">
-        <%= render partial: 'post_comments/new_comment_form', locals: { post: post } %>
-      </div>
-      <% end %>
-      </div>
   <% end %>
 </ol>

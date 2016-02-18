@@ -1,6 +1,10 @@
 <ol class="comments">
   <% post.post_comments.each do |comment| %>
-    <%= image_tag comment.user.avatar, alt: 'commentator avatar', class: 'commentator-avatar' %>
+    <% if comment.user.avatar.present? %>
+      <%= image_tag comment.user.avatar, alt: 'commentator avatar', class: 'commentator-avatar' %>
+    <% else %>
+      <%= image_tag 'no_profile_img.gif', alt: 'no profile image', class: 'commentator-avatar' %>
+    <% end %>
     <%= comment.user.name %>
     <span class="timestamp">commented <%= time_ago_in_words(comment.created_at) %> ago:</span>
     <li class="post">

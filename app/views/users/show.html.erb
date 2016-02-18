@@ -17,9 +17,9 @@
     </div>
   <% end %>
 
-  <% if @user.posts.any? %>
     <div id="posts-list">
-      <%= render partial: 'posts/posts', locals: { user: @user } %>
+      <% if @user.posts.any? %>
+        <%= render partial: 'posts/posts', locals: { user: @user } %>
+      <% end %>
     </div>
-  <% end %>
 </div>
