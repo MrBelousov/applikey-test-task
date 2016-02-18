@@ -1,27 +1,29 @@
 <h3>Posts feed</h3>
 <div class="col-sm-8">
-<ol class="posts">
-  <% @posts.each do |post| %>
+  <ol class="posts">
+    <% @posts.each do |post| %>
       <div class="user-post">
         <li class="post">
           <%= image_tag post.user.avatar, alt: 'user avatar', class: 'commentator-avatar' %>
-          <span class="content"><%= post.post_text %></span><br>
-      <span class="timestamp">
-        Posted <%= time_ago_in_words(post.created_at) %> ago.
-      </span>
+          <span class="content">
+            <%= post.post_text %>
+          </span><br>
+          <span class="timestamp">
+            Posted <%= time_ago_in_words(post.created_at) %> ago.
+          </span>
           <% if current_user == post.user %><br>
-              <%= link_to "Delete post", post, method: :delete, remote: true %>
+            <%= link_to "Delete post", post, method: :delete, remote: true %>
           <% end %>
         </li>
         <div id="comments-list-<%= post.id.to_s %>">
           <%= render partial: 'post_comments/comments', locals: { post: post } %>
         </div>
         <% if user_signed_in? %>
-            <div id="comment-form-<%= post.id.to_s %>">
-              <%= render partial: 'post_comments/new_comment_form', locals: { post: post } %>
-            </div>
+          <div id="comment-form-<%= post.id.to_s %>">
+            <%= render partial: 'post_comments/new_comment_form', locals: { post: post } %>
+          </div>
         <% end %>
       </div>
-  <% end %>
-</ol>
+    <% end %>
+  </ol>
 </div>

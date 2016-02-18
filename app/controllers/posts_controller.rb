@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :correct_user, only: :destroy
+  before_action :correct_user, only: [:edit, :update, :destroy]
   before_action :get_posts, only: [:create, :destroy]
   before_action :get_user, only: [:create, :destroy]
 
@@ -37,6 +37,7 @@ class PostsController < ApplicationController
     params.require(:post).permit(:post_text)
   end
 
+  # Before filters
   def correct_user
     @micropost = current_user.posts.find_by(id: params[:id])
     redirect_to root_url if @micropost.nil?

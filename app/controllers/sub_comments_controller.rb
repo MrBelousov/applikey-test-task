@@ -1,6 +1,6 @@
 class SubCommentsController < ApplicationController
   before_action :user_signed_in?, only: [:create, :destroy]
-  before_action :correct_user, only: :destroy
+  before_action :correct_user, only: [:edit, :update, :destroy]
 
   def show
   end

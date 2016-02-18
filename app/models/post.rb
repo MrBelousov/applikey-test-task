@@ -1,7 +1,7 @@
 class Post < ActiveRecord::Base
   # Validations
   validates :post_text, presence: true, length: { maximum: 140 }
-  validates :user_id, presence: true
+  validates_presence_of :user_id
 
   # Default order
   default_scope -> { order('created_at DESC') }

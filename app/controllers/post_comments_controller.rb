@@ -1,6 +1,6 @@
 class PostCommentsController < ApplicationController
-  before_action :user_signed_in?, only: [:create, :destroy]
-  before_action :correct_user, only: :destroy
+  before_action :user_signed_in?, only: [:create, :edit, :update, :destroy]
+  before_action :correct_user, only: [:destroy, :edit, :update]
 
   def show
   end
@@ -11,8 +11,8 @@ class PostCommentsController < ApplicationController
   def create
     @comment = PostComment.new(comment_params)
     @comment.user = current_user
-    @comment.post = Post.find(params[:post_id])
     @post = Post.find(params[:post_id])
+    @comment.post = @post
     respond_to do |format|
       if @comment.save
         format.html { redirect_to :back }

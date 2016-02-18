@@ -31,7 +31,7 @@ class UsersController < ApplicationController
   def update
     upload
     if @user.update(user_params)
-      flash[:success] = "Profile updated"
+      flash[:success] = 'Profile updated'
       redirect_to @user
     else
       render 'edit'
@@ -48,10 +48,9 @@ class UsersController < ApplicationController
       File.open(Rails.root.join('public', 'uploads', 'images', uploaded_io.original_filename), 'wb') do |file|
         file.write(uploaded_io.read)
       end
-      @user.avatar = "/uploads/images/" + uploaded_io.original_filename
+      @user.avatar = '/uploads/images/' + uploaded_io.original_filename
     end
   end
-
 
   private
 

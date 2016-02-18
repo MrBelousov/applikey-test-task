@@ -1,13 +1,12 @@
 <ol class="comments">
   <% post.post_comments.each do |comment| %>
     <%= image_tag comment.user.avatar, alt: 'commentator avatar', class: 'commentator-avatar' %>
-    <%= comment.user.name %> <span class="timestamp">
-        commented <%= time_ago_in_words(comment.created_at) %> ago:
-      </span>
+    <%= comment.user.name %>
+    <span class="timestamp">commented <%= time_ago_in_words(comment.created_at) %> ago:</span>
     <li class="post">
       <span class="content"><%= comment.comment_text %></span>
       <% if current_user == comment.user %><br>
-        <%= link_to "Delete comment", comment, method: :delete, remote: true, class: 'remove-comment-link' %>
+        <%= link_to 'Delete comment', comment, method: :delete, remote: true, class: 'remove-comment-link' %>
       <% end %>
     </li>
     <div id="sub_comments-list-<%= comment.id.to_s %>">
