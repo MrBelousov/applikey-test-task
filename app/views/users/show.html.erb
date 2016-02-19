@@ -17,9 +17,12 @@
     </div>
   <% end %>
 
-    <div id="posts-list">
-      <% if @user.posts.any? %>
-        <%= render partial: 'posts/posts', locals: { user: @user } %>
-      <% end %>
-    </div>
+  <h3 id="posts-count">Posts (<%= @user.posts.count %>)</h3>
+  <div id="posts-list">
+    <% if @user.posts.any? %>
+      <%= render partial: 'posts/posts', locals: { user: @user } %>
+    <% else %>
+      <p>Write something about yourself..</p>
+    <% end %>
+  </div>
 </div>
