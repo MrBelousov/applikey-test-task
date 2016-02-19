@@ -18,11 +18,16 @@
 @import "bootstrap";
 
 body{
-  background: #EFEFEF;
+  background: #F5F8FA;
 }
 
 li{
   list-style-type: none;
+}
+
+h3{
+  font-family: initial;
+  font-style: unset;
 }
 
 textarea {
@@ -31,16 +36,49 @@ textarea {
   width: 70%;
 }
 
+.btn-primary{
+  background: rgba(137, 201, 250, 0.8) none repeat scroll 0% 0%;
+  border: 1px solid transparent;
+  transition: 0.3s;
+}
+
+.btn-primary:hover{
+  background-color: #1B95E0;
+  border: 1px solid transparent;
+  transition: 0.3s;
+}
+
 .header-menu li{
   float: left;
+  a {
+    color: #666666;
+    transition: 0.3s;
+  }
+}
+
+.header-menu li a:hover{
+  transition: 0.3s;
 }
 
 .header-row{
-  padding: 20px;
-  height: 100px;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 100px;
+  background: white;
+  border-bottom: 1px solid lightgray;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.dropdown-menu{
+  min-width: 100%;
 }
 
 .footer{
   margin-top: 50px;
   height: 60px;
+}
+
+.media-heading{
+  font-style: oblique;
 }

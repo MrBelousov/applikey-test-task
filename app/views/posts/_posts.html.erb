@@ -1,29 +1,35 @@
 <h3>Posts (<%= @user.posts.count %>)</h3>
-<ol class="posts">
+<div class="feed-wrapper">
+<ul class="posts media-list">
   <% @posts.each do |post| %>
     <div class="user-post">
-      <li class="post">
+      <li class="post media">
+        <div class="media-left">
         <% if @user.avatar.present? %>
-          <%= image_tag @user.avatar, alt: 'user avatar', class: 'commentator-avatar' %>
+          <%= image_tag @user.avatar, alt: 'user avatar', class: 'commentator-avatar media-object' %>
         <% else %>
-          <%= image_tag 'no_profile_img.gif', alt: 'no profile image', class: 'commentator-avatar' %>
+          <%= image_tag 'no_profile_img.gif', alt: 'no profile image', class: 'commentator-avatar media-object' %>
         <% end %>
-        <span class="content"><%= post.post_text %></span><br>
-        <span class="timestamp">
-          Posted <%= time_ago_in_words(post.created_at) %> ago.
-        </span>
+        </div>
+        <div class="media-body">
+          <h5 class="media-heading"><%= post.user.name %> posted <%= time_ago_in_words(post.created_at) %> ago:</h5>
+          <p class="post-content"><%= post.post_text %></p>
+        </div>
         <% if current_user == post.user %><br>
-          <%= link_to "Delete post", post, method: :delete, remote: true %>
+          <%= link_to "Delete post", post, method: :delete, remote: true, class: 'float-right' %>
         <% end %>
       </li>
+      <div class="comment-wrapper">
       <div id="comments-list-<%= post.id.to_s %>">
         <%= render partial: 'post_comments/comments', locals: { post: post } %>
       </div>
+      </div>
       <% if user_signed_in? %>
-        <div id="comment-form-<%= post.id.to_s %>">
-          <%= render partial: 'post_comments/new_comment_form', locals: { post: post } %>
-        </div>
+          <div id="comment-form-<%= post.id.to_s %>">
+            <%= render partial: 'post_comments/new_comment_form', locals: { post: post } %>
+          </div>
       <% end %>
     </div>
   <% end %>
-</ol>
+</ul>
+</div>
