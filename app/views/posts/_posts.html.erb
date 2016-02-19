@@ -5,10 +5,12 @@
         <div class="user-post">
           <li class="post media">
             <div class="media-left">
-              <% if @user.avatar.present? %>
-                <%= image_tag @user.avatar, alt: 'user avatar', class: 'commentator-avatar media-object' %>
+              <% if post.user.avatar.present? %>
+                <%= link_to image_tag(post.user.avatar, alt: 'user avatar',
+                                      class: 'commentator-avatar media-object'), user_path(post.user) %>
               <% else %>
-                <%= image_tag 'no_profile_img.gif', alt: 'no profile image', class: 'commentator-avatar media-object' %>
+                <%= link_to image_tag('no_profile_img.gif', alt: 'no profile image',
+                                      class: 'commentator-avatar media-object'), user_path(post.user) %>
               <% end %>
             </div>
             <div class="media-body">
