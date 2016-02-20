@@ -1,6 +1,7 @@
 class SubCommentsController < ApplicationController
   before_action :user_signed_in?, only: [:create, :destroy]
   before_action :correct_user, only: [:edit, :update, :destroy]
+  before_action :get_comment, only: [:create]
 
   def show
   end
@@ -9,10 +10,8 @@ class SubCommentsController < ApplicationController
   end
 
   def create
-    @sub_comment = SubComment.new(sub_comment_params)
+    @sub_comment = @comment.sub_comments.new(sub_comment_params)
     @sub_comment.user = current_user
-    @sub_comment.post_comment = PostComment.find(params[:comment_id])
-    @comment = PostComment.find(params[:comment_id])
     respond_to do |format|
       if @sub_comment.save
         format.html { redirect_to :back }
@@ -42,7 +41,10 @@ class SubCommentsController < ApplicationController
 
   # Before filters
   def correct_user
-    @sub_comment = current_user.sub_comments.find_by(id: params[:id])
-    redirect_to root_url if @sub_comment.nil?
+    redirect_to root_url unless current_user.sub_comments.exists?(id: params[:id])
+  end
+
+  def get_comment
+    @comment = PostComment.find(params[:comment_id])
   end
 end

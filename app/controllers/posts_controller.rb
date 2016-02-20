@@ -39,8 +39,7 @@ class PostsController < ApplicationController
 
   # Before filters
   def correct_user
-    @micropost = current_user.posts.find_by(id: params[:id])
-    redirect_to root_url if @micropost.nil?
+    redirect_to root_url unless current_user.posts.exists?(id: params[:id])
   end
 
   # Methods for successful remote:true rendering

@@ -1,6 +1,7 @@
 class PostCommentsController < ApplicationController
   before_action :user_signed_in?, only: [:create, :edit, :update, :destroy]
   before_action :correct_user, only: [:destroy, :edit, :update]
+  before_action :get_post, only: [:create]
 
   def show
   end
@@ -9,10 +10,8 @@ class PostCommentsController < ApplicationController
   end
 
   def create
-    @comment = PostComment.new(comment_params)
+    @comment = @post.post_comments.new(comment_params)
     @comment.user = current_user
-    @post = Post.find(params[:post_id])
-    @comment.post = @post
     respond_to do |format|
       if @comment.save
         format.html { redirect_to :back }
@@ -42,7 +41,10 @@ class PostCommentsController < ApplicationController
 
   # Before filters
   def correct_user
-    @comment = current_user.post_comments.find_by(id: params[:id])
-    redirect_to root_url if @comment.nil?
+    redirect_to root_url unless current_user.post_comments.exists?(id: params[:id])
+  end
+
+  def get_post
+    @post = Post.find(params[:post_id])
   end
 end

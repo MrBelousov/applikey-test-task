@@ -1,4 +1,9 @@
 class User < ActiveRecord::Base
+  # Relationships
+  has_many :posts, dependent: :destroy
+  has_many :post_comments, dependent: :destroy
+  has_many :sub_comments, dependent: :destroy
+
   # Ensuring email uniqueness by downcasing the email attribute.
   before_save { self.email = email.downcase }
   # Creating remember token for each user
@@ -13,18 +18,12 @@ class User < ActiveRecord::Base
   has_secure_password
   validates :password, length: { minimum: 8 }
 
-  # Relationships
-  has_many :posts, dependent: :destroy
-  has_many :post_comments, dependent: :destroy
-  # Comments to comments
-  has_many :sub_comments, dependent: :destroy
-
   # Authenticate methods
-  def User.new_remember_token
+  def self.new_remember_token
     SecureRandom.urlsafe_base64
   end
 
-  def User.encrypt(token)
+  def self.encrypt(token)
     Digest::SHA1.hexdigest(token.to_s)
   end
 

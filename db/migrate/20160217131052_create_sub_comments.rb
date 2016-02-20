@@ -1,8 +1,8 @@
 class CreateSubComments < ActiveRecord::Migration
   def change
     create_table :sub_comments do |t|
-      t.integer :post_comment_id
-      t.integer :user_id
+      t.integer :post_comment_id, index: true
+      t.integer :user_id, index: true
       t.string :comment_text
 
       t.timestamps null: false
