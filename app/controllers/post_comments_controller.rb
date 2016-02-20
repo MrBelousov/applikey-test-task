@@ -2,6 +2,7 @@ class PostCommentsController < ApplicationController
   before_action :user_signed_in?, only: [:create, :edit, :update, :destroy]
   before_action :correct_user, only: [:destroy, :edit, :update]
   before_action :get_post, only: [:create]
+  before_action :get_all_posts, only: [:destroy]
 
   def show
   end
@@ -46,5 +47,9 @@ class PostCommentsController < ApplicationController
 
   def get_post
     @post = Post.find(params[:post_id])
+  end
+
+  def get_all_posts
+    @posts = Post.all
   end
 end

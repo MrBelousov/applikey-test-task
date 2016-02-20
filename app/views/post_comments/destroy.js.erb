@@ -1,1 +1,2 @@
 $('#comments-list-<%= @post.id.to_s %>').html("<%= j (render partial: 'post_comments/comments', locals: { post: @post }) %>");
+$('#posts-feed').html("<%= j (render 'home/posts_feed', locals: { posts: @posts }) %>");
