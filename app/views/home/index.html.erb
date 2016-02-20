@@ -1,6 +1,6 @@
 <h3>Posts feed</h3>
 <div class="col-sm-8">
-  <div class="feed-wrapper", id="posts-feed">
-    <%= render 'posts_feed' %>
+  <div class="feed-wrapper" id="posts-feed">
+    <%= render partial: 'home/posts_feed', locals: { posts: @posts } %>
   </div>
 </div>

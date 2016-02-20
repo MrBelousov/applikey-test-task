@@ -2,7 +2,6 @@ class SubCommentsController < ApplicationController
   before_action :user_signed_in?, only: [:create, :destroy]
   before_action :correct_user, only: [:edit, :update, :destroy]
   before_action :get_comment, only: [:create]
-  before_action :get_all_posts, only: [:destroy]
 
   def show
   end
@@ -47,9 +46,5 @@ class SubCommentsController < ApplicationController
 
   def get_comment
     @comment = PostComment.find(params[:comment_id])
-  end
-
-  def get_all_posts
-    @posts = Post.all
   end
 end

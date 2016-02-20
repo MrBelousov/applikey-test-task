@@ -1,5 +1,5 @@
 <ul class="posts media-list">
-  <% @posts.each do |post| %>
+  <% posts.each do |post| %>
       <div class="user-post">
         <li class="post media">
           <div class="media-left">
@@ -15,9 +15,6 @@
             <h5 class="media-heading"><%= post.user.name %> posted <%= time_ago_in_words(post.created_at) %> ago:</h5>
             <p class="post-content"><%= post.post_text %></p>
           </div>
-          <% if current_user == post.user %><br>
-              <%= link_to 'Delete post', post, method: :delete, remote: true, class: 'float-right' %>
-          <% end %>
         </li>
         <div class="comment-wrapper">
           <div id="comments-list-<%= post.id.to_s %>">
