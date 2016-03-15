@@ -1,9 +1,9 @@
-class CommentsToPostController < CommentsController
+class CommentsController < CommentsController
   before_action :user_signed_in?, only: :create
   before_action :get_post, only: :create
 
   def create
-    @comment = @post.comments.build(comment_params)
+    @comment = Comment.find(params[:comment_id]).comments.build(comment_params)
     @comment.user = current_user
     respond_to do |format|
       if @comment.save
@@ -17,10 +17,6 @@ class CommentsToPostController < CommentsController
   end
 
   private
-
-  def comment_params
-    params.require(:comment).permit(:text)
-  end
 
   def get_post
     @post = Post.find(params[:post_id]) if params[:post_id]
