@@ -1,0 +1,25 @@
+<ul class="comments media-list">
+  <% comment.comments.each do |comment| %>
+      <li class="post media comment">
+        <div class="media-left">
+          <% if comment.user.avatar.present? %>
+              <%= link_to image_tag(comment.user.avatar, alt: 'commentator avatar',
+                                    class: 'commentator-avatar media-object'), user_path(comment.user) %>
+          <% else %>
+              <%= link_to image_tag('no_profile_img.gif', alt: 'no profile image',
+                                    class: 'commentator-avatar media-object'), user_path(comment.user) %>
+          <% end %>
+        </div>
+        <div class="media-body">
+          <h5 class="media-heading">
+            <%= comment.user.name %> commented
+            <%= time_ago_in_words(comment.created_at) %> ago:
+          </h5>
+          <p class="post-content"><%= comment.text %></p>
+        </div>
+        <% if current_user == comment.user %>
+            <%= link_to 'Delete comment', comment, method: :delete, remote: true, class: 'float-right' %>
+        <% end %>
+      </li>
+  <% end %>
+</ul>

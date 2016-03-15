@@ -1,7 +1,7 @@
 class Post < ActiveRecord::Base
   # Relationships
   belongs_to :user
-  has_many :post_comments, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
 
   # Validations
   validates :post_text, presence: true, length: { maximum: 140 }

@@ -23,9 +23,9 @@ class PostsController < ApplicationController
   end
 
   def destroy
+    @post = Post.find(params[:id])
+    @post.destroy
     respond_to do |format|
-      @post = Post.find(params[:id])
-      @post.destroy
       format.html { redirect_to current_user }
       format.js
     end
@@ -39,7 +39,7 @@ class PostsController < ApplicationController
 
   # Before filters
   def correct_user
-    redirect_to root_url unless current_user.posts.exists?(id: params[:id])
+    current_user.posts.find(params[:id])
   end
 
   # Methods for successful remote:true rendering
