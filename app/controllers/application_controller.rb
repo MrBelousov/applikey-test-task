@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
       when 'comments'
         current_user.comments.find_by(commentable_id: params[:id])
       when 'posts'
-        current_user.posts.find_by(commentable_id: params[:id])
+        current_user.posts.find(params[:id])
       when 'users'
         @user = User.find(params[:id])
         redirect_to(root_url) unless current_user?(@user)

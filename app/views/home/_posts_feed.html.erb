@@ -18,14 +18,15 @@
         </li>
         <div class="comment-wrapper">
           <div id="comments-list-<%= post.id.to_s %>">
-            <%= render partial: 'comments/comments', locals: { post: post } %>
+            <%= render partial: 'comments/post_comments/comments', locals: { post: post } %>
           </div>
         </div>
         <% if user_signed_in? %>
             <div id="comment-form-<%= post.id.to_s %>">
-              <%= render partial: 'comments/new_comment_form', locals: { post: post } %>
+              <%= render partial: 'comments/post_comments/new_comment_form', locals: { post: post } %>
             </div>
         <% end %>
       </div>
   <% end %>
+  <%= paginate posts %>
 </ul>

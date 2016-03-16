@@ -9,4 +9,7 @@ class Post < ActiveRecord::Base
 
   # Default order
   default_scope -> { order('created_at DESC') }
+
+  # Pagination
+  paginates_per 5
 end

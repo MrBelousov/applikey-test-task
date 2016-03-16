@@ -6,7 +6,7 @@ class UsersController < ApplicationController
 
   def show
     @new_post = Post.new
-    @posts = @user.posts
+    @posts = @user.posts.page(params[:page])
   end
 
   def new

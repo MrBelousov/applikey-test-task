@@ -6,7 +6,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    @posts = current_user.posts
+    @posts = current_user.posts.page(params[:page])
     @post = current_user.posts.new(post_params)
     respond_to do |format|
       if @post.save
@@ -20,7 +20,7 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @posts = current_user.posts
+    @posts = current_user.posts.page(params[:page])
     @post = Post.find(params[:id])
     @post.destroy
     respond_to do |format|

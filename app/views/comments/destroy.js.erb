@@ -1,1 +1,1 @@
-$('#comments-list-<%= @post.id.to_s %>').html("<%= j (render partial: 'comments/comments', locals: { post: @post }) %>");
+$('#comments-list-<%= @post.id.to_s %>').html("<%= j (render partial: 'comments/post_comments/comments', locals: { post: @post }) %>");

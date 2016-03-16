@@ -1,2 +1,2 @@
-$('#comments-list-<%= @post.id.to_s %>').html("<%= j (render partial: 'comments/comments', locals: { post: @post }) %>");
-$('#comment-form-<%= @post.id.to_s %>').html("<%= j (render partial: 'comments/new_comment_form', locals: { post: @post }) %>");
+$('#comments-list-<%= @post.id.to_s %>').html("<%= j (render partial: 'comments/post_comments/comments', locals: { post: @post }) %>");
+$('#comment-form-<%= @post.id.to_s %>').html("<%= j (render partial: 'comments/post_comments/new_comment_form', locals: { post: @post }) %>");
