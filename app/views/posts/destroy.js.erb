@@ -1,2 +1,3 @@
 $('#posts-list').html("<%= j (render 'posts/posts') %>");
-$('#posts-count').html("Posts (<%= @user.posts.count %>)");
+<% user = current_user %>
+$('#posts-count').html("Posts (<%= user.posts.count %>)");

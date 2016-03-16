@@ -1,8 +1,4 @@
 class PostsController < ApplicationController
-  before_action :correct_user, only: [:edit, :update, :destroy]
-  before_action :get_posts, only: [:create, :destroy]
-  before_action :get_user, only: [:create, :destroy]
-
   def show
   end
 
@@ -10,6 +6,7 @@ class PostsController < ApplicationController
   end
 
   def create
+    @posts = current_user.posts
     @post = current_user.posts.new(post_params)
     respond_to do |format|
       if @post.save
@@ -23,6 +20,7 @@ class PostsController < ApplicationController
   end
 
   def destroy
+    @posts = current_user.posts
     @post = Post.find(params[:id])
     @post.destroy
     respond_to do |format|
@@ -35,19 +33,5 @@ class PostsController < ApplicationController
 
   def post_params
     params.require(:post).permit(:post_text)
-  end
-
-  # Before filters
-  def correct_user
-    current_user.posts.find(params[:id])
-  end
-
-  # Methods for successful remote:true rendering
-  def get_posts
-    @posts = current_user.posts
-  end
-
-  def get_user
-    @user = current_user
   end
 end

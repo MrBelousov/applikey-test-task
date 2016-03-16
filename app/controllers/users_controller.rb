@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :upload, :update, :destroy]
-  before_action :correct_user, only: [:edit, :update]
 
   def index
   end
@@ -62,10 +61,5 @@ class UsersController < ApplicationController
   # Before filters
   def set_user
     @user = User.find(params[:id])
-  end
-
-  def correct_user
-    @user = User.find(params[:id])
-    redirect_to(root_url) unless current_user?(@user)
   end
 end
