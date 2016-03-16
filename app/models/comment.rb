@@ -6,4 +6,5 @@ class Comment < ActiveRecord::Base
 
   # Validations
   validates :text, presence: true, length: { maximum: 140 }
+  validates_presence_of :user_id
 end

@@ -28,6 +28,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'pry', '~> 0.10.3'
   gem 'web-console', '~> 2.0'
   gem 'better_errors'
   gem 'awesome_print'

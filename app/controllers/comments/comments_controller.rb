@@ -1,4 +1,4 @@
-class CommentsController < CommentsController
+class Comments::CommentsController < CommentsController
   before_action :user_signed_in?, only: :create
   before_action :get_post, only: :create
 
@@ -7,11 +7,11 @@ class CommentsController < CommentsController
     @comment.user = current_user
     respond_to do |format|
       if @comment.save
-        format.html { redirect_to :back }
+        format.html { redirect_to root_path }
         #format.js
       else
         flash[:error] = 'Comment cannot be created.'
-        format.html { redirect_to :back }
+        format.html { redirect_to root_path }
       end
     end
   end

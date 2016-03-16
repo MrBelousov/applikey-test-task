@@ -1,4 +1,4 @@
-<%= form_for(Comment.new) do |f| %>
+<%= form_for(Comment.new, url: comment_comments_comments_url(comment)) do |f| %>
     <%= render 'layouts/shared/error_messages', object: f.object %>
     <div class="field">
       <%= f.text_area :text, placeholder: 'Your comment to comment...', required: true %>
