@@ -19,6 +19,21 @@ class PostsController < ApplicationController
     end
   end
 
+  def edit
+    @post = Post.find(params[:id])
+  end
+
+  def update
+    @post = Post.find(params[:id])
+    if @post.update(post_params)
+      flash[:succes] = 'Your post was successfully updated!'
+      redirect_to user_path(current_user)
+    else
+      flash.now[:error] = 'Post cannot be updated.'
+      render 'edit'
+    end
+  end
+
   def destroy
     @posts = current_user.posts.page(params[:page])
     @post = Post.find(params[:id])

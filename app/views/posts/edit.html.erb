@@ -1,0 +1,11 @@
+<h1>Edit your post</h1>
+<div class="col-sm-5">
+  <div class="span6 offset3">
+    <%= form_for @post do |f| %>
+      <%= render 'layouts/shared/error_messages', object: f.object %>
+      <%= f.label :post_text %>
+      <%= f.text_field :post_text, class: 'form-control' %>
+      <%= f.submit 'Save changes', class: 'btn btn-large btn-primary' %>
+    <% end %>
+  </div>
+</div>

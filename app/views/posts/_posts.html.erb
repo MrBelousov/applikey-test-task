@@ -18,7 +18,8 @@
               <p class="post-content"><%= post.post_text %></p>
             </div>
             <% if current_user == post.user %><br>
-              <%= link_to 'Delete post', post, method: :delete, remote: true, class: 'float-right' %>
+              <%= link_to 'Delete post', post, method: :delete, remote: true, class: 'float-right' %><br>
+              <%= link_to 'Edit post', edit_post_path(post), class: 'float-right' %>
             <% end %>
           </li>
           <div class="comment-wrapper">
