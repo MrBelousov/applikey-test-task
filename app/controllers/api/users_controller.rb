@@ -1,5 +1,6 @@
 class Api::UsersController < Api::APIController
-  before_action :set_user, only: [:show, :edit, :avatar_update, :update, :destroy]
+  before_action :set_user, except: [:index]
+  skip_before_action :restrict_access, only: [:create]
 
   def index
     render json: ActiveModel::ArraySerializer.new(
@@ -22,17 +23,8 @@ class Api::UsersController < Api::APIController
   end
 
   def update
-    avatar_update
-    if @user.update(user_params)
-      render json: UserSerializer.new(@user).to_json
-    else
-      render json: { errors: @user.errors }
-    end
-  end
-
-  def avatar_update
     @user.avatar = params[:file] if params[:file]
-    if @user.save
+    if @user.update(user_params)
       render json: UserSerializer.new(@user).to_json
     else
       render json: { errors: @user.errors }

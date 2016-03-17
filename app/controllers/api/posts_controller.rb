@@ -11,7 +11,7 @@ class Api::PostsController < Api::APIController
   end
 
   def create
-    @post = current_user.posts.new(post_params)
+    @post = @current_user.posts.new(post_params)
     if @post.save
       render json: PostSerializer.new(@post).to_json
     else
@@ -20,7 +20,7 @@ class Api::PostsController < Api::APIController
   end
 
   def update
-    @post = current_user.posts.find(params[:id])
+    @post = @current_user.posts.find(params[:id])
     if @post.update(post_params)
       render json: PostSerializer.new(@post).to_json
     else
@@ -29,7 +29,7 @@ class Api::PostsController < Api::APIController
   end
 
   def destroy
-    @post = current_user.posts.find(params[:id])
+    @post = @current_user.posts.find(params[:id])
     @post.destroy
   end
 

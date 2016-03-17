@@ -4,7 +4,7 @@ class Api::CommentsController < Api::APIController
   end
 
   def destroy
-    @comment = current_user.comments.find(params[:id])
+    @comment = @current_user.comments.find(params[:id])
     @comment.destroy
   end
 
@@ -17,7 +17,7 @@ class Api::CommentsController < Api::APIController
   protected
 
   def create_comment
-    @comment.user = current_user
+    @comment.user = @current_user
     if @comment.save
       render json: CommentSerializer.new(@comment).to_json
     else
