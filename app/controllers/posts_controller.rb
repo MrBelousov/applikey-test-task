@@ -6,7 +6,6 @@ class PostsController < ApplicationController
   end
 
   def create
-    @posts = current_user.posts.page(params[:page])
     @post = current_user.posts.new(post_params)
     respond_to do |format|
       if @post.save
@@ -20,11 +19,11 @@ class PostsController < ApplicationController
   end
 
   def edit
-    @post = Post.find(params[:id])
+    @post = current_user.posts.find(params[:id])
   end
 
   def update
-    @post = Post.find(params[:id])
+    @post = current_user.posts.find(params[:id])
     if @post.update(post_params)
       flash[:succes] = 'Your post was successfully updated!'
       redirect_to user_path(current_user)
@@ -36,7 +35,7 @@ class PostsController < ApplicationController
 
   def destroy
     @posts = current_user.posts.page(params[:page])
-    @post = Post.find(params[:id])
+    @post = current_user.posts.find(params[:id])
     @post.destroy
     respond_to do |format|
       format.html { redirect_to current_user }

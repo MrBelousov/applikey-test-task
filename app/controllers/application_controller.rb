@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :user_signed_in?, only: [:create, :edit, :update, :destroy]
-  before_action :correct_user, only: [:edit, :update, :destroy]
+  #before_action :correct_user, only: [:edit, :update, :destroy]
 
   include SessionsHelper
 
@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   private
-
+=begin
   def correct_user
     case params[:controller]
       when 'comments'
@@ -23,4 +23,5 @@ class ApplicationController < ActionController::Base
         fail ArgumentError
     end
   end
+=end
 end

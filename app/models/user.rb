@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   # Relationships
   has_many :posts, dependent: :destroy
-  has_many :comments, as: :commentable, dependent: :destroy
+  has_many :comments, dependent: :destroy
   #has_many :sub_comments, dependent: :destroy
 
   # Ensuring email uniqueness by downcasing the email attribute.

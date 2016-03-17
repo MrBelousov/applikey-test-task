@@ -1,0 +1,34 @@
+<ul class="comments media-list">
+  <% post.comments.each do |comment| %>
+    <div class="user-comment">
+      <li class="post media comment">
+        <div class="media-left">
+          <% if comment.user.avatar.present? %>
+            <%= link_to image_tag(comment.user.avatar, alt: 'commentator avatar',
+                                  class: 'commentator-avatar media-object'), user_path(comment.user) %>
+          <% else %>
+            <%= link_to image_tag('no_profile_img.gif', alt: 'no profile image',
+                                  class: 'commentator-avatar media-object'), user_path(comment.user) %>
+          <% end %>
+        </div>
+        <div class="media-body">
+          <h5 class="media-heading"><%= comment.user.name %> commented <%= time_ago_in_words(comment.created_at) %> ago:</h5>
+          <p class="post-content"><%= comment.text %></p>
+        </div>
+        <% if current_user == comment.user %><br>
+          <%= link_to 'Delete comment', comment, method: :delete, class: 'float-right' %>
+        <% end %>
+      </li>
+      <div class="comment-wrapper">
+        <div id="sub_comments-list-<%= comment.id.to_s %>">
+          <%= render partial: 'comments/comments/comment_comments', locals: { comment: comment } %>
+        </div>
+      </div>
+      <% if user_signed_in? %>
+          <div id="sub_comment-form-<%= comment.id.to_s %>" class="sub_comment-form">
+            <%= render partial: 'comments/comments/comment_comments_form', locals: { comment: comment } %>
+          </div>
+      <% end %>
+    </div>
+  <% end %>
+</ul>
