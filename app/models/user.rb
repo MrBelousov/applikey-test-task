@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
             uniqueness: { case_sensitive: false }
 
   has_secure_password
-  validates :password, length: { minimum: 8 }
+
 
   # Authenticate methods
   def self.new_remember_token
@@ -28,6 +28,17 @@ class User < ActiveRecord::Base
 
   def self.encrypt(token)
     Digest::SHA1.hexdigest(token.to_s)
+  end
+
+  def self.from_omniauth(auth)
+    where(auth.slice(:provider, :uid).permit!).first_or_initialize.tap do |user|
+      user.provider = auth.provider
+      user.uid = auth.uid
+      user.name = auth.info.name
+      user.oauth_token = auth.credentials.token
+      user.oauth_expires_at = Time.at(auth.credentials.expires_at)
+      user.save!
+    end
   end
 
   private

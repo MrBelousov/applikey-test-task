@@ -16,6 +16,9 @@ gem 'bootstrap-sass', '~> 3.3'
 # Serializer
 gem 'active_model_serializers'
 
+# Authentication through facebook
+gem 'omniauth-facebook'
+
 #Pagination
 gem 'kaminari'
 
