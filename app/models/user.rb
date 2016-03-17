@@ -2,12 +2,15 @@ class User < ActiveRecord::Base
   # Relationships
   has_many :posts, dependent: :destroy
   has_many :comments, dependent: :destroy
-  #has_many :sub_comments, dependent: :destroy
+  has_one :api_key, dependent: :destroy
 
   # Ensuring email uniqueness by downcasing the email attribute.
   before_save { self.email = email.downcase }
   # Creating remember token for each user
   before_create :create_remember_token
+
+  # Creating an api key for user
+  after_create :create_api_key
 
   # Validations
   validates :name, presence: true, length: { maximum: 50 }
