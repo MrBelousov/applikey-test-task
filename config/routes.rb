@@ -22,10 +22,11 @@ Rails.application.routes.draw do
   match '/signout', to: 'sessions#destroy',     via: 'delete'
 
   # Facebook authentication
-  match 'auth/:provider/callback', to: 'omniauth_sessions#create', via: 'get'
-  match 'auth/failure', to: 'omniauth_sessions#oaut_failure', via: 'get'
+  match 'auth/:provider/callback', to: 'sessions#create', via: 'get'
+  match 'auth/failure', to: 'sessions#oaut_failure', via: 'get'
 
-  # API v1
+
+                       # API v1
   namespace :api, defaults: { format: :json } do
     resources :users
     resources :sessions, only: [:new, :create, :destroy]

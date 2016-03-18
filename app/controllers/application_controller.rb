@@ -26,11 +26,6 @@ class ApplicationController < ActionController::Base
   end
 =end
 
-  helper_method :current_user_from_omniauth
-  def current_user_from_omniauth
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
-  end
-
   # Checking Api_key before actions
   def restrict_access
     unless restrict_access_by_params || restrict_access_by_header

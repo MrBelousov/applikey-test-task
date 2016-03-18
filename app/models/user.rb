@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
             uniqueness: { case_sensitive: false }
 
   has_secure_password
+  validates :password, length: { minimum: 6 }
 
 
   # Authenticate methods
@@ -35,6 +36,9 @@ class User < ActiveRecord::Base
       user.provider = auth.provider
       user.uid = auth.uid
       user.name = auth.info.name
+      user.email = auth.info.email
+      user.password = "q1wegwqetdssd2123"
+      user.password_confirmation = "q1wegwqetdssd2123"
       user.oauth_token = auth.credentials.token
       user.oauth_expires_at = Time.at(auth.credentials.expires_at)
       user.save!
