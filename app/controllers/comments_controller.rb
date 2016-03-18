@@ -27,7 +27,7 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if @comment.save
         format.html { redirect_to :back }
-        #format.js
+        format.js
       else
         flash[:error] = 'Comment cannot be created.'
         format.html { redirect_to :back }

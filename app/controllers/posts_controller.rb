@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  before_action :set_current_user_post, only: [:edit, :update, :destroy]
   def show
   end
 
@@ -19,11 +20,9 @@ class PostsController < ApplicationController
   end
 
   def edit
-    @post = current_user.posts.find(params[:id])
   end
 
   def update
-    @post = current_user.posts.find(params[:id])
     if @post.update(post_params)
       flash[:succes] = 'Your post was successfully updated!'
       redirect_to user_path(current_user)
@@ -34,8 +33,6 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @posts = current_user.posts.page(params[:page])
-    @post = current_user.posts.find(params[:id])
     @post.destroy
     respond_to do |format|
       format.html { redirect_to current_user }
@@ -47,5 +44,9 @@ class PostsController < ApplicationController
 
   def post_params
     params.require(:post).permit(:post_text)
+  end
+
+  def set_current_user_post
+    @post = current_user.posts.find(params[:id])
   end
 end

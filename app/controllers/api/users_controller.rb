@@ -1,10 +1,10 @@
 class Api::UsersController < Api::APIController
   before_action :set_user, except: [:index]
-  skip_before_action :restrict_access, only: [:create]
+  before_action :restrict_access, except: [:create]
 
   def index
     render json: ActiveModel::ArraySerializer.new(
-            User.all,
+            User.all.page(params[:page]),
             each_serializer: UserSerializer
         )
   end

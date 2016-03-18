@@ -2,7 +2,7 @@
   <div class="feed-wrapper">
     <ul class="posts media-list">
       <% @posts.each do |post| %>
-        <div class="user-post">
+        <div class="user-post" id="post-<%= post.id %>">
           <li class="post media">
             <div class="media-left">
               <% if post.user.avatar.present? %>
@@ -24,12 +24,12 @@
           </li>
           <div class="comment-wrapper">
             <div id="comments-list-<%= post.id.to_s %>">
-              <%= render partial: 'comments/post_comments/comments', locals: { post: post } %>
+              <%= render partial: 'comments/posts/comments', locals: { post: post } %>
             </div>
           </div>
           <% if user_signed_in? %>
             <div id="comment-form-<%= post.id.to_s %>">
-              <%= render partial: 'comments/post_comments/new_comment_form', locals: { post: post } %>
+              <%= render partial: 'comments/posts/new_comment_form', locals: { post: post } %>
             </div>
           <% end %>
         </div>
