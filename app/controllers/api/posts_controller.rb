@@ -1,5 +1,6 @@
 class Api::PostsController < Api::APIController
   before_action :set_current_user_post, only: [:update, :destroy]
+
   def index
     render json: ActiveModel::ArraySerializer.new(
             Post.all.page(params[:page]),

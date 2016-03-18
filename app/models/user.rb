@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   # Relationships
   has_many :posts, dependent: :destroy
   has_many :comments, dependent: :destroy
-  has_one :api_key, dependent: :destroy
+  has_many :api_keys, dependent: :destroy
 
   # Ensuring email uniqueness by downcasing the email attribute.
   before_save { self.email = email.downcase }

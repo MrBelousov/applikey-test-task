@@ -1,15 +1,17 @@
 class Api::APIController < ApplicationController
-  before_action :restrict_access, only: [:create, :update, :destroy]
+  include SessionsHelper
 
-  # Disabling CSRF token for mobile applications
-  protect_from_forgery
+  before_action :restrict_access
+
+# Disabling CSRF token for mobile applications
+  protect_from_forgery with: :null_session
   skip_before_action :verify_authenticity_token
 
   private
 
-  # Checking Api_key before actions
+# Checking Api_key before actions
   def restrict_access
-    unless restrict_access_by_params || restrict_access_by_header
+    unless restrict_access_by_header || restrict_access_by_params
       render json: { message: 'Invalid API Token', error_code: 401 }, status: 401
       return
     end
@@ -19,9 +21,7 @@ class Api::APIController < ApplicationController
   def restrict_access_by_header
     return true if @api_key
 
-    authenticate_with_http_token do |token|
-      @api_key = ApiKey.find_by_token(token)
-    end
+    @api_key = ApiKey.find_by_token(request.headers['Authorization'])
   end
 
   def restrict_access_by_params
@@ -29,4 +29,6 @@ class Api::APIController < ApplicationController
 
     @api_key = ApiKey.find_by_token(params[:token])
   end
+
 end
+

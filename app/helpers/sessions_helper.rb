@@ -27,6 +27,11 @@ module SessionsHelper
     @current_user ||= User.find_by(remember_token: remember_token)
   end
 
+
+  def current_api_user
+    @current_api_user ||= ApiKey.find_by_token(request.headers['Authorization'])
+  end
+
   def current_user?(user)
     user == current_user
   end

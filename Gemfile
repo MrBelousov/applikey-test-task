@@ -16,6 +16,9 @@ gem 'bootstrap-sass', '~> 3.3'
 # Serializer
 gem 'active_model_serializers'
 
+# Respond_to JSON
+gem 'responders'
+
 #Pagination
 gem 'kaminari'
 

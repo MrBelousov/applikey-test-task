@@ -18,16 +18,17 @@ class Api::UsersController < Api::APIController
     if @user.save
       render json: UserSerializer.new(@user).to_json
     else
-      render json: { errors: @user.errors }
+      render json: { errors: @user.errors }, status: 422
     end
   end
 
   def update
-    @user.avatar = params[:file] if params[:file]
-    if @user.update(user_params)
-      render json: UserSerializer.new(@user).to_json
+    user = current_api_user
+    user.avatar = params[:file] if params[:file]
+    if user.update(user_params)
+      render json: UserSerializer.new(user).to_json, status: 200
     else
-      render json: { errors: @user.errors }
+      render json: { errors: user.errors }, status: 422
     end
   end
 
