@@ -18,8 +18,8 @@ class User < ActiveRecord::Base
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX },
             uniqueness: { case_sensitive: false }
 
-  has_secure_password
   validates :password, length: { minimum: 6 }
+  has_secure_password
 
 
   # Authenticate methods
@@ -36,6 +36,7 @@ class User < ActiveRecord::Base
       user.provider = auth.provider
       user.uid = auth.uid
       user.name = auth.info.name
+      user.avatar = auth.info.image
       user.email = auth.info.email
       user.password = "q1wegwqetdssd2123"
       user.password_confirmation = "q1wegwqetdssd2123"
