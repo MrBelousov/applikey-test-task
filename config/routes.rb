@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   match 'auth/failure', to: 'sessions#oaut_failure', via: 'get'
 
 
-                       # API v1
+  # API v1
   namespace :api, defaults: { format: :json } do
     resources :users
     resources :sessions, only: [:new, :create, :destroy]

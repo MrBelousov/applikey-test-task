@@ -19,6 +19,9 @@ gem 'active_model_serializers'
 # Authentication through facebook
 gem 'omniauth-facebook'
 
+# Respond_to JSON
+gem 'responders'
+
 #Pagination
 gem 'kaminari'
 

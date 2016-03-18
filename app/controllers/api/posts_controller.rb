@@ -1,7 +1,7 @@
 class Api::PostsController < Api::APIController
   def index
     render json: ActiveModel::ArraySerializer.new(
-            Post.all,
+            Post.all.page(params[:page]),
             each_serializer: PostSerializer
         )
   end

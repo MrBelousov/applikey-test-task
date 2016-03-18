@@ -4,7 +4,7 @@ class Api::UsersController < Api::APIController
 
   def index
     render json: ActiveModel::ArraySerializer.new(
-            User.all,
+            User.all.page(params[:page]),
             each_serializer: UserSerializer
         )
   end
