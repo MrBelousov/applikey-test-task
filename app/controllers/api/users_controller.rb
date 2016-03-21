@@ -1,14 +1,13 @@
 class Api::UsersController < Api::APIController
   before_action :set_user, except: [:index, :create]
-  #before_action :restrict_access, except: [:create]
+  before_action :restrict_access, except: [:create]
 
   def index
-    render 'users/api/index'
+    @users = User.all.page(params[:page])
   end
 
   def show
     @user = User.find(params[:id])
-    render 'users/api/show'
   end
 
   def create

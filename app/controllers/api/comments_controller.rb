@@ -1,7 +1,6 @@
 class Api::CommentsController < Api::APIController
   def show
     @comment = Comment.find(params[:id])
-    render 'comments/api/show'
   end
 
   def destroy
