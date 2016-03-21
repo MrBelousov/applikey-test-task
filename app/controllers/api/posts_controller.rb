@@ -2,18 +2,17 @@ class Api::PostsController < Api::APIController
   before_action :set_current_user_post!, only: [:update, :destroy]
 
   def index
-    render 'posts/api/index'
+    @posts = Post.all.page(params[:page])
   end
 
   def show
     @post = Post.find(params[:id])
-    render 'posts/api/show'
   end
 
   def create
     @post = current_user.posts.new(post_params)
     if @post.save
-      render 'posts/api/show'
+      render json: @post
     else
       render json: { errors: @post.errors }
     end
@@ -21,7 +20,7 @@ class Api::PostsController < Api::APIController
 
   def update
     if @post.update(post_params)
-      render 'posts/api/show'
+      render json: @post
     else
       render json: { errors: @post.errors }
     end
