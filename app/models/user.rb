@@ -21,6 +21,9 @@ class User < ActiveRecord::Base
   has_secure_password
   validates :password, length: { minimum: 8 }
 
+  # Pagination
+  paginates_per 5
+
   # Authenticate methods
   def self.new_remember_token
     SecureRandom.urlsafe_base64

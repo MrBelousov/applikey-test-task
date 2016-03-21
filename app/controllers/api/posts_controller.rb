@@ -1,5 +1,5 @@
 class Api::PostsController < Api::APIController
-  before_action :set_current_user_post, only: [:update, :destroy]
+  before_action :set_current_user_post!, only: [:update, :destroy]
 
   def index
     render json: ActiveModel::ArraySerializer.new(
@@ -39,7 +39,7 @@ class Api::PostsController < Api::APIController
     params.require(:post).permit(:post_text)
   end
 
-  def set_current_user_post
+  def set_current_user_post!
     @post = @current_user.posts.find(params[:id])
   end
 end

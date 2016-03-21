@@ -17,6 +17,6 @@ class ApiKey < ActiveRecord::Base
   end
 
   def set_expiration_date
-    self.expiration =  Date.today + 30.days
+    self.expiration = Date.today + 30.days
   end
 end
