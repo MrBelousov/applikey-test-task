@@ -1,4 +1,7 @@
 class ApiKey < ActiveRecord::Base
+  # Constants
+  API_KEY_LIFETIME = 30.days
+
   # Associations
   belongs_to :user
 
@@ -17,6 +20,6 @@ class ApiKey < ActiveRecord::Base
   end
 
   def set_expiration_date
-    self.expiration =  Date.today + 30.days
+    self.expires_at = self.updated_at + API_KEY_LIFETIME
   end
 end

@@ -1,21 +1,19 @@
 class Api::PostsController < Api::APIController
-  before_action :set_current_user_post, only: [:update, :destroy]
+  before_action :set_current_user_post!, only: [:update, :destroy]
 
   def index
-    render json: ActiveModel::ArraySerializer.new(
-            Post.all.page(params[:page]),
-            each_serializer: PostSerializer
-        )
+    render 'posts/api/index'
   end
 
   def show
-    render json: PostSerializer.new(Post.find(params[:id])).to_json
+    @post = Post.find(params[:id])
+    render 'posts/api/show'
   end
 
   def create
-    @post = @current_user.posts.new(post_params)
+    @post = current_user.posts.new(post_params)
     if @post.save
-      render json: PostSerializer.new(@post).to_json
+      render 'posts/api/show'
     else
       render json: { errors: @post.errors }
     end
@@ -23,7 +21,7 @@ class Api::PostsController < Api::APIController
 
   def update
     if @post.update(post_params)
-      render json: PostSerializer.new(@post).to_json
+      render 'posts/api/show'
     else
       render json: { errors: @post.errors }
     end
@@ -39,7 +37,7 @@ class Api::PostsController < Api::APIController
     params.require(:post).permit(:post_text)
   end
 
-  def set_current_user_post
-    @post = @current_user.posts.find(params[:id])
+  def set_current_user_post!
+    @post = current_user.posts.find(params[:id])
   end
 end
