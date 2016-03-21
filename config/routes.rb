@@ -31,6 +31,11 @@ Rails.application.routes.draw do
     resources :users
     resources :sessions, only: [:new, :create, :destroy]
 
+    # Facebook authentication
+    match '/auth/:provider/callback', to: 'sessions#create', via: 'get'
+    match 'auth/failure', to: 'sessions#oaut_failure', via: 'get'
+
+
     resources :posts do
       namespace :posts do
         resources :comments, only: :create

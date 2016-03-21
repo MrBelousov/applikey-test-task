@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   has_many :posts, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :api_keys, dependent: :destroy
-  has_many :omniauth_fields, dependent: :destroy
+  has_many :providers, dependent: :destroy
 
 
   # Ensuring email uniqueness by downcasing the email attribute.
@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
   before_create :create_remember_token
 
   # Creating an api key for user
-  after_create :create_api_key
+  after_save :create_api_key
 
   # Validations
   validates :name, presence: true, length: { maximum: 50 }
@@ -35,20 +35,24 @@ class User < ActiveRecord::Base
 
   def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid).permit!).first_or_initialize.tap do |user|
-      user.provider = auth.provider
       user.name = auth.info.name
       user.avatar = auth.info.image
       user.email = auth.info.email
       user.password = "q1wegwqetdssd2123"
       user.password_confirmation = "q1wegwqetdssd2123"
-      user.omniauth_fields.build(uid: auth.uid,
-                                 oauth_token: auth.credentials.token,
-                                 oauth_expires_at: Time.at(auth.credentials.expires_at))
+      user.providers.facebook.build(uid: auth.uid,
+                           oauth_token: auth.credentials.token,
+                           oauth_expires_at: Time.at(auth.credentials.expires_at),
+                           provider: auth.provider)
       user.save!
     end
   end
 
   private
+
+  def create_api_key
+    self.api_keys.create
+  end
 
   def create_remember_token
     self.remember_token = User.encrypt(User.new_remember_token)
