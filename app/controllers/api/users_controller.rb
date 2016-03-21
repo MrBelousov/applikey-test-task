@@ -1,16 +1,14 @@
 class Api::UsersController < Api::APIController
   before_action :set_user, except: [:index, :create]
-  before_action :restrict_access, except: [:create]
+  #before_action :restrict_access, except: [:create]
 
   def index
-    render json: ActiveModel::ArraySerializer.new(
-            User.all.page(params[:page]),
-            each_serializer: UserSerializer
-        )
+    render 'users/api/index'
   end
 
   def show
-    render json: UserSerializer.new(@user).to_json
+    @user = User.find(params[:id])
+    render 'users/api/show'
   end
 
   def create
@@ -23,7 +21,7 @@ class Api::UsersController < Api::APIController
   end
 
   def update
-    user = current_api_user
+    user = current_user
     user.avatar = params[:file] if params[:file]
     if user.update(user_params)
       render json: UserSerializer.new(user).to_json, status: 200

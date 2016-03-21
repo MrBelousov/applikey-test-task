@@ -1,10 +1,11 @@
 class Api::CommentsController < Api::APIController
   def show
-    render json: CommentSerializer.new(Comment.find(params[:id])).to_json
+    @comment = Comment.find(params[:id])
+    render 'comments/api/show'
   end
 
   def destroy
-    @comment = @current_user.comments.find(params[:id])
+    @comment = current_user.comments.find(params[:id])
     @comment.destroy
   end
 
@@ -17,11 +18,16 @@ class Api::CommentsController < Api::APIController
   protected
 
   def create_comment
-    @comment.user = @current_user
+    @comment.user = current_user
     if @comment.save
-      render json: CommentSerializer.new(@comment).to_json
+      render 'comments/api/show'
     else
       render json: @comment.errors
     end
+  end
+
+  def commentable(object)
+    @comment = object.comments.build(comment_params)
+    create_comment
   end
 end

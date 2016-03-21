@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   before_create :create_remember_token
 
   # Creating an api key for user
-  after_create :create_api_key
+  after_save :create_api_key
 
   # Validations
   validates :name, presence: true, length: { maximum: 50 }
@@ -34,6 +34,10 @@ class User < ActiveRecord::Base
   end
 
   private
+
+  def create_api_key
+    self.api_keys.create
+  end
 
   def create_remember_token
     self.remember_token = User.encrypt(User.new_remember_token)
