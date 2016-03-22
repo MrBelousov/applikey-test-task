@@ -1,5 +1,5 @@
 class Api::Comments::CommentsController < Api::CommentsController
-  def create
-    commentable Comment.find(params[:comment_id])
+  def get_commentable!
+    @commentable = Comment.find(params[:comment_id])
   end
 end

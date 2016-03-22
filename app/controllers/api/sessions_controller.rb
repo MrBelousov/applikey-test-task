@@ -7,7 +7,7 @@ class Api::SessionsController < Api::APIController
       self.current_user = user
       render json: current_user
     else
-      render json: { message: 'Invalid email/password combination', error_code: 422 }, status: 422
+      render json: { message: 'Invalid email/password combination', error_code: 404 }, status: 404
     end
   end
 

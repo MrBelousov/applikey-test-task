@@ -1,2 +1,3 @@
-json.id @post.id
-json.post_text @post.post_text
+json.post do
+  json.partial! 'api/posts/posts', post: @post
+end

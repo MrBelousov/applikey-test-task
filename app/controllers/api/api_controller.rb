@@ -64,14 +64,19 @@ class Api::APIController < ApplicationController
 
   helper_method :current_user
   def current_user
-    @current_user ||= User.includes(:api_keys).where(api_keys: { token: request.headers['Authorization'] }).first
+    @current_user = current_api_key_user
+  end
+
+  def current_api_key_user
+    @user = User.includes(:api_keys).where(api_keys: { token: request.headers['Authorization'] })
+                .first if ApiKey.find_by_token!(request.headers['Authorization']).not_expired?
   end
 
 # Checking Api_key before actions
   def restrict_access
-    if !current_user.nil? && current_user.api_keys.find_by_token(request.headers['Authorization']).valid?
+    if current_api_key_user
       current_user.api_keys.each do |key|
-        key.touch(:updated_at)
+        key.set_expiration_date
       end
     else
       render json: { message: 'Invalid API Token', error_code: 401 }, status: 401
