@@ -44,7 +44,7 @@ class Api::APIController < ApplicationController
 
     if options[:error_message]
       if json[:errors].nil?
-        json[:errors] = { error: [options[:error_message]] }
+        json[:errors] = [options[:error_message]]
       elsif json[:errors].is_a?(Hash)
         json[:errors][:error] ||= []
         json[:errors][:error] << options[:error_message]
@@ -64,12 +64,16 @@ class Api::APIController < ApplicationController
 
   helper_method :current_user
   def current_user
-    @current_user ||= User.includes(:api_keys).where('api_keys.token = ?', request.headers['Authorization']).references(:api_keys)
+    @current_user ||= User.includes(:api_keys).where(api_keys: { token: request.headers['Authorization'] }).first
   end
 
 # Checking Api_key before actions
   def restrict_access
-    unless current_user
+    if !current_user.nil? && current_user.api_keys.find_by_token(request.headers['Authorization']).valid?
+      current_user.api_keys.each do |key|
+        key.touch(:updated_at)
+      end
+    else
       render json: { message: 'Invalid API Token', error_code: 401 }, status: 401
     end
   end

@@ -34,4 +34,9 @@ class CommentsController < ApplicationController
       end
     end
   end
+
+  def self.commentable
+    @comment = self.comments.build(comment_params)
+    create_comment
+  end
 end

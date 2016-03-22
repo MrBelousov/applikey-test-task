@@ -13,6 +13,10 @@ class ApiKey < ActiveRecord::Base
 
   private
 
+  def self.valid?
+    true if self.expires_at - Date.today > 0
+  end
+
   def generate_token
     begin
       self.token = SecureRandom.hex.to_s

@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     resources :users
     resources :sessions, only: [:new, :create, :destroy]
+    match '/signout', to: 'sessions#destroy',     via: 'delete'
 
     resources :posts do
       namespace :posts do
