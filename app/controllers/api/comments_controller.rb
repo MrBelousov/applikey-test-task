@@ -1,6 +1,18 @@
 class Api::CommentsController < Api::APIController
+  before_action :get_commentable!, only: [:create]
+
   def show
     @comment = Comment.find(params[:id])
+  end
+
+  def create
+    @comment = @commentable.comments.build(comment_params)
+    @comment.user = current_user
+    if @comment.save
+      render json: @comment
+    else
+      render json: @comment.errors
+    end
   end
 
   def destroy
@@ -12,21 +24,5 @@ class Api::CommentsController < Api::APIController
 
   def comment_params
     params.require(:comment).permit(:text)
-  end
-
-  protected
-
-  def create_comment
-    @comment.user = current_user
-    if @comment.save
-      render 'comments/api/show'
-    else
-      render json: @comment.errors
-    end
-  end
-
-  def commentable(object)
-    @comment = object.comments.build(comment_params)
-    create_comment
   end
 end

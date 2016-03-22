@@ -1,3 +1,5 @@
 class Comments::CommentsController < CommentsController
-  before_action :commentable
+  def get_commentable!
+    @commentable = Comment.find(params[:comment_id])
+  end
 end
