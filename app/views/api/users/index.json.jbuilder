@@ -1,6 +1,3 @@
 json.users @users do |user|
-  json.id user.id
-  json.name user.name
-  json.email user.email
-  json.avatar user.avatar
+  json.partial! 'api/users/users', user: user
 end
