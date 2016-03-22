@@ -1,5 +1,5 @@
 class Api::APIController < ApplicationController
-  before_action :restrict_access, only: [:create, :update, :destroy]
+  #before_action :restrict_access, only: [:create, :update, :destroy]
 
   # Disabling CSRF token for mobile applications
   protect_from_forgery
