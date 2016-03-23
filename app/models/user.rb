@@ -40,7 +40,7 @@ class User < ActiveRecord::Base
       user.email = auth.info.email
       user.password = "q1wegwqetdssd2123"
       user.password_confirmation = "q1wegwqetdssd2123"
-      user.providers.facebook.build(uid: auth.uid,
+      user.providers.facebook_provider.build(uid: auth.uid,
                            oauth_token: auth.credentials.token,
                            oauth_expires_at: Time.at(auth.credentials.expires_at),
                            provider: auth.provider)

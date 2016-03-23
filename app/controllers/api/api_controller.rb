@@ -1,9 +1,16 @@
 class Api::APIController < ApplicationController
-  #before_action :restrict_access, only: [:create, :update, :destroy]
+  before_action :restrict_access, only: [:create, :update, :destroy]
 
   # Disabling CSRF token for mobile applications
   protect_from_forgery
   skip_before_action :verify_authenticity_token
+
+  def create_user_from_api_response(response)
+    @user = User.new(email: response[:email], name: response[:name])
+    if @user.save
+      render json: @user
+    end
+  end
 
   private
 

@@ -18,6 +18,9 @@ gem 'active_model_serializers'
 
 # Authentication through facebook
 gem 'omniauth-facebook'
+gem 'rest-client', '~> 1.8'
+gem 'koala', '~> 2.2'
+
 
 # Respond_to JSON
 gem 'responders'

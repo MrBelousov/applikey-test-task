@@ -5,8 +5,7 @@ class Api::SessionsController < Api::APIController
   end
 
   def create
-    auth = request.env["omniauth.auth"]
-    if auth
+    if request.headers['Authentication-Info'].present?
       sign_in_with_auth
     else
       sign_in_with_password
@@ -14,8 +13,16 @@ class Api::SessionsController < Api::APIController
   end
 
   def sign_in_with_auth
-    @user = User.from_omniauth(env["omniauth.auth"])
-    redirect_to root_url
+    RestClient.get("https://graph.facebook.com/v2.5/me?fields=id%2Cname%2Cemail&access_token=#{request.headers['Authentication-Info']}"){
+        |response, request, result|
+        @response = JSON.parse(response)
+        user = User.find_or_create_by(name: @response['name'], email: @response['email'])
+        user.password = "q1wegwqetdssd2123"
+        user.password_confirmation = "q1wegwqetdssd2123"
+        user.save
+        self.current_user = user
+        render json: user
+    }
   end
 
   def sign_in_with_password
