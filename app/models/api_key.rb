@@ -2,8 +2,6 @@ class ApiKey < ActiveRecord::Base
   # Constants
   API_KEY_LIFETIME = 30.days
 
-  scope :header_key, -> { find_by_token(request.headers['Authorization']) }
-
   # Associations
   belongs_to :user
 
@@ -18,7 +16,6 @@ class ApiKey < ActiveRecord::Base
   end
 
   def set_expiration_date
-    self.touch
     self.expires_at = self.updated_at + API_KEY_LIFETIME
   end
 

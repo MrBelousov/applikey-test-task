@@ -1,6 +1,7 @@
 class Api::APIController < ApplicationController
   include SessionsHelper
 
+  before_action :get_current_api_key
   before_action :restrict_access
 
   # Disabling CSRF token for mobile applications
@@ -64,18 +65,18 @@ class Api::APIController < ApplicationController
 
   helper_method :current_user
   def current_user
-    @current_user = current_api_key_user
+    @user = User.includes(:api_keys).where(api_keys: { token: @api_key }).first
   end
 
-  def current_api_key_user
-    @user = User.includes(:api_keys).where(api_keys: { token: request.headers['Authorization'] })
-                .first if ApiKey.find_by_token!(request.headers['Authorization']).not_expired?
+  def get_current_api_key
+    @api_key = request.headers['Authorization'] if ApiKey.find_by_token!(request.headers['Authorization']).not_expired?
   end
 
 # Checking Api_key before actions
   def restrict_access
-    if current_api_key_user
+    if current_user
       current_user.api_keys.each do |key|
+        key.touch
         key.set_expiration_date
       end
     else
