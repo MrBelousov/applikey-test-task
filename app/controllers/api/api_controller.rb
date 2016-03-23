@@ -65,10 +65,9 @@ class Api::APIController < ApplicationController
 
   def get_current_api_key
     if request.headers['Authorization'].nil?
-      raise NotImplementedError,
-            "You are not authorized to perform this action."
+      render json: { message: 'Unauthorized', error_code: 401 }, status: 401
     else
-      @api_key = ApiKey.find_by_token!(request.headers['Authorization']) #.not_expired
+      @api_key = ApiKey.not_expired.find_by_token!(request.headers['Authorization'])
     end
   end
 

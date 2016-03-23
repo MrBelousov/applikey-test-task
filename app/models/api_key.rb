@@ -2,7 +2,7 @@ class ApiKey < ActiveRecord::Base
   # Constants
   API_KEY_LIFETIME = 30.days
 
-  scope :not_expired, -> { self.expires_at - Time.current > 0 }
+  scope :not_expired, -> { where('expires_at > ?', Time.current) }
 
   # Associations
   belongs_to :user
