@@ -17,7 +17,7 @@ class Api::SessionsController < Api::APIController
         |response|
         @response = JSON.parse(response)
     }
-    user = User.find_or_create_by(name: @response['name'], email: @response['email'])
+    user = User.find_or_create_by(email: @response['email'])
     user.password = "q1wegwqetdssd2123"
     user.password_confirmation = "q1wegwqetdssd2123"
     user.save
