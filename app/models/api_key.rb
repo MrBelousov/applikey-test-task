@@ -2,6 +2,8 @@ class ApiKey < ActiveRecord::Base
   # Constants
   API_KEY_LIFETIME = 30.days
 
+  scope :not_expired, -> { self.expires_at - Time.current > 0 }
+
   # Associations
   belongs_to :user
 
@@ -10,10 +12,6 @@ class ApiKey < ActiveRecord::Base
 
   # Api key expiring
   before_create :set_expiration_date
-
-  def not_expired?
-    self.expires_at - Time.current > 0
-  end
 
   def set_expiration_date
     self.expires_at = self.updated_at + API_KEY_LIFETIME

@@ -25,4 +25,8 @@ class Api::CommentsController < Api::APIController
   def comment_params
     params.require(:comment).permit(:text)
   end
+
+  def get_commentable!
+    raise NotImplementedError, 'Comment format not implemented!'
+  end
 end

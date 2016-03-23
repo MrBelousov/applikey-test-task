@@ -1,7 +1,6 @@
 class Api::APIController < ApplicationController
   include SessionsHelper
 
-  before_action :get_current_api_key
   before_action :restrict_access
 
   # Disabling CSRF token for mobile applications
@@ -9,10 +8,6 @@ class Api::APIController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   respond_to :json
-
-  rescue_from ActiveRecord::RecordNotFound do
-    response_error error_message: 'Not found', status: :not_found
-  end
 
   rescue_from ActiveRecord::RecordInvalid do |exception|
     response_error error_message: exception.message
@@ -65,22 +60,25 @@ class Api::APIController < ApplicationController
 
   helper_method :current_user
   def current_user
-    @user = User.includes(:api_keys).where(api_keys: { token: @api_key }).first
+    @user = get_current_api_key.user
   end
 
   def get_current_api_key
-    @api_key = request.headers['Authorization'] if ApiKey.find_by_token!(request.headers['Authorization']).not_expired?
+    if request.headers['Authorization'].nil?
+      raise NotImplementedError,
+            "You are not authorized to perform this action."
+    else
+      @api_key = ApiKey.find_by_token!(request.headers['Authorization']) #.not_expired
+    end
   end
 
 # Checking Api_key before actions
   def restrict_access
     if current_user
-      current_user.api_keys.each do |key|
-        key.touch
-        key.set_expiration_date
-      end
+      get_current_api_key.touch
+      get_current_api_key.set_expiration_date
     else
-      render json: { message: 'Invalid API Token', error_code: 401 }, status: 401
+      render json: { message: 'Unauthorized', error_code: 401 }, status: 401
     end
   end
 
