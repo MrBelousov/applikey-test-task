@@ -1,5 +1,5 @@
 class Api::UsersController < Api::APIController
-  before_action :set_user, except: [:index]
+  before_action :set_user, except: [:index, :create]
   skip_before_action :restrict_access, only: [:create]
 
   def index
