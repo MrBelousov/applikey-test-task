@@ -28,6 +28,7 @@ gem 'bcrypt', '~> 3.1.7'
 
 # WebServer
 gem 'passenger', '~> 5.0'
+gem 'net-ssh', '~> 2.9.2'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -38,6 +39,14 @@ group :development, :test do
 end
 
 group :development do
+  gem 'capistrano', '~> 3.4.0'
+  gem 'capistrano-rvm'
+  gem 'capistrano-rails'
+  gem 'capistrano-sidekiq'
+  gem 'capistrano-passenger'
+  gem 'capistrano-figaro'
+  gem 'capistrano-safe-deploy-to'
+
   gem 'pry', '~> 0.10.3'
   gem 'web-console', '~> 2.0'
   gem 'better_errors'
