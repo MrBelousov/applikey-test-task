@@ -27,8 +27,8 @@ gem 'kaminari'
 gem 'bcrypt', '~> 3.1.7'
 
 # WebServer
-gem 'passenger', '~> 5.0'
-gem 'net-ssh', '~> 2.9.2'
+gem 'unicorn', '~> 5.0', '>= 5.0.1'
+gem 'net-ssh'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
