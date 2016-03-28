@@ -1,56 +1,28 @@
-require "bundler/capistrano"
-require "rvm/capistrano"
+server 'ec2-54-93-67-200.eu-central-1.compute.amazonaws.com', user: 'ubuntu', roles: %w{web app db}
 
-server "54.93.110.219", :web, :app, :db, primary: true
-
-set :application, "applikey-test-task"
-set :user, "deploy"
-set :port, 22
-set :deploy_to, "/home/#{user}/workspace/#{application}"
+#role :all, %w{deploy@ec2-54-93-67-200.eu-central-1.compute.amazonaws.com}
+set :application, 'applikey-test-task'
+set :repo_url, 'git@github.com:MrBelousov/applikey-test-task.git'
+set :port, 80
+set :stages, %w(production staging)
+set :deploy_to, "/home/deployer/apps/applikey-test-task"
 set :deploy_via, :remote_cache
 set :use_sudo, false
-set :stages, ["staging", "production"]
-set :default_stage, "staging"
 
 set :scm, "git"
-set :repository, "git@github.com:MrBelousov/applikey-test-task.git"
 set :branch, "master"
 
+# Default value for :linked_files is []
+set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
 
-default_run_options[:pty] = true
-ssh_options[:forward_agent] = true
+# Default value for linked_dirs is []
+set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system', 'public/uploads')
 
-after "deploy", "deploy:cleanup" # keep only the last 5 releases
+after 'deploy:publishing', 'deploy:restart'
 
 namespace :deploy do
-  %w[start stop restart].each do |command|
-    desc "#{command} unicorn server"
-    task command, roles: :app, except: {no_release: true} do
-      run "/etc/init.d/unicorn_#{application} #{command}"
-    end
+  task :restart do
+    invoke 'unicorn:restart'
   end
-
-  task :setup_config, roles: :app do
-    sudo "ln -nfs #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/#{application}"
-    sudo "ln -nfs #{current_path}/config/unicorn_init.sh /etc/init.d/unicorn_#{application}"
-    run "mkdir -p #{shared_path}/config"
-    put File.read("config/database.example.yml"), "#{shared_path}/config/database.yml"
-    puts "Now edit the config files in #{shared_path}."
-  end
-  after "deploy:setup", "deploy:setup_config"
-
-  task :symlink_config, roles: :app do
-    run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
-  end
-  after "deploy:finalize_update", "deploy:symlink_config"
-
-  desc "Make sure local git is in sync with remote."
-  task :check_revision, roles: :web do
-    unless `git rev-parse HEAD` == `git rev-parse origin/master`
-      puts "WARNING: HEAD is not the same as origin/master"
-      puts "Run `git push` to sync changes."
-      exit
-    end
-  end
-  before "deploy", "deploy:check_revision"
 end
+

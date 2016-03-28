@@ -46,6 +46,9 @@ group :development do
   gem 'capistrano-passenger'
   gem 'capistrano-figaro'
   gem 'capistrano-safe-deploy-to'
+  gem 'capistrano-bundler'
+  gem 'capistrano3-unicorn'
+
 
   gem 'pry', '~> 0.10.3'
   gem 'web-console', '~> 2.0'
