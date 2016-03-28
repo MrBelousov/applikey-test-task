@@ -14,5 +14,5 @@ test:
 production:
  <<: *default
  database: applikey-test-task_production
- username: ubuntu
+ username: applikey-test-task
  password: <%= ENV['MYAPP_DATABASE_PASSWORD'] %>
