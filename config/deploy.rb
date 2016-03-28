@@ -9,6 +9,8 @@ set :port, 22
 set :deploy_to, "/home/#{user}/workspace/#{application}"
 set :deploy_via, :remote_cache
 set :use_sudo, false
+set :stages, ["staging", "production"]
+set :default_stage, "staging"
 
 set :scm, "git"
 set :repository, "git@github.com:MrBelousov/applikey-test-task.git"

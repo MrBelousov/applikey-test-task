@@ -1,4 +1,4 @@
-root = "/home/michail/workspace/applikey-test-task/current"
+root = "/home/deployer/apps/applikey-test-task/current"
 working_directory root
 pid "#{root}/tmp/pids/unicorn.pid"
 stderr_path "#{root}/log/unicorn.log"
