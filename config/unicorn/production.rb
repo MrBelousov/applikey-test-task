@@ -7,9 +7,6 @@ preload_app true
 timeout 30
 listen "127.0.0.1:5020"
 
-# Spawn unicorn master worker for user apps (group: apps)
-user 'apps', 'apps'
-
 # Fill path to your app
 working_directory app_path
 
