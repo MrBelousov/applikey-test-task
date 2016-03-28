@@ -1,19 +1,18 @@
 default: &default
-  adapter: postgresql
-  encoding: unicode
-  pool: 5
+ adapter: postgresql
+ encoding: unicode
+ pool: 5
 
 development:
-  <<: *default
-  database: applikey-test-task_development
+ <<: *default
+ database: applikey-test-task_development
 
 test:
-  <<: *default
-  database: applikey-test-task_test
+ <<: *default
+ database: applikey-test-task_test
 
 production:
-  <<: *default
-  database: applikey-test-task_production
-  username: ubuntu
-  password: <%= ENV['MYAPP_DATABASE_PASSWORD'] %>
-
+ <<: *default
+ database: applikey-test-task_production
+ username: ubuntu
+ password: <%= ENV['MYAPP_DATABASE_PASSWORD'] %>
